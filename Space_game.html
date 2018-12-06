@@ -19,139 +19,166 @@
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         }
         .center {
-        position: absolute;
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        font-size: 50px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+            position: absolute;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 50px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
 }
         #fire{
             width: 99%;
             min-width:20%;
+        }
+        #health {
+            background-color: lightcoral;
+            position: absolute;
+            top: 15px;
+            left: 16px;
         }
     
     </style>
 </head>
 <body onkeydown='moveWithKey(event)'>
     <h1 style="font-size: 6vw;">Egg Wars</h1>
-    <div id='asteroid'>
-
-
-    </div>
+    <div id='asteroid'></div>
+    <img id='fire' src="fire.png" alt="fire pit">
+    <img id='chicken' src="chickengame.png" alt="chickenchick" width="57.2" height="93.75">
+    <div id="health"></div>
+    <div id="nugget"></div>
     <script>
-        var body = document.body;
-        var chicken = {};
-
-        function start(){
-
-        chicken = document.getElementById("chicken");
-        chicken.style.position = 'absolute'; // ask chris
-        chicken.style.left = '50%';
-        chicken.style.bottom = '1%';
-        fire = document.getElementById("fire");
-        fire.style.position = 'absolute'
-        fire.style.left ='0%';
-        fire.style.bottom = '-25%';
-        }
-        function move(dir){
-            switch(dir){
-                case 'left': 
-                chicken.style.left= parseInt(chicken.style.left)-1 +'%';
-                        break;
-                case 'right':
-                chicken.style.left= parseInt(chicken.style.left)+1 +'%';
-                        break;
-                case 'up':
-                chicken.style.bottom= parseInt(chicken.style.bottom)+1 +'%';
-                        break;
-                case 'down':
-                chicken.style.bottom= parseInt(chicken.style.bottom)-1 +'%';
-                        break;
+            var body = document.body;
+            var chicken = {};
+    
+            function start(){
+    
+            chicken = document.getElementById("chicken");
+            chicken.style.position = 'absolute'; // ask chris
+            chicken.style.left = '50%';
+            chicken.style.bottom = '1%';
+            fire = document.getElementById("fire");
+            fire.style.position = 'absolute'
+            fire.style.left ='0%';
+            fire.style.bottom = '-25%';
             }
-        }
-
-        function moveWithKey(key){
-            var keyCode = key.keyCode ||key.which ;
-            console.log(key.which)
-            switch(keyCode){
-                case 37:
-                    move('left');
-                    break;
-                case 38:
-                    move('up');
-                    break;
-                case 39:
-                    move('right');
-                    break;
-                case 40:
-                    move('down');
-                    break;
-            }
-
-        }
-        function asteroid(){
-            var asteroid = new Image();
-            asteroid.src = "kfc.png";
-            asteroid.width = '73';
-            asteroid.height = '76';
-            asteroid.setAttribute("class","asteroids");
-            asteroid.style.position = 'absolute'; // ask chris
-            console.log(Math.floor((Math.random()*80)+10));
-            asteroid.style.left = Math.floor((Math.random()*80)+10)+ '%';
-            asteroid.style.bottom = '70%';
-            
-            document.getElementById("asteroid").appendChild(asteroid);
-            setInterval(function(){asteroid.style.bottom=parseInt(asteroid.style.bottom)-2+'%';},'200');
-        }
-
-        function collision(){
-            var asteroid = document.getElementsByClassName('asteroids');
-            var chicken = document.getElementById('chicken');
-            var parent = document.getElementById('asteroid');
-
-            var nugget = new Image();
-            nugget.src = "nugget.png";
-            nugget.style.position = 'absolute';
-            nugget.style.left='0%';
-            nugget.style.bottom = '-40%';
-
-            for(var i=0; i<asteroid.length;i++){
-                if(parseInt(asteroid[i].style.bottom)<2){
-                    parent.removeChild(asteroid[i]);
+            function move(dir){
+                switch(dir){
+                    case 'left': 
+                    chicken.style.left= parseInt(chicken.style.left)-1 +'%';
+                            break;
+                    case 'right':
+                    chicken.style.left= parseInt(chicken.style.left)+1 +'%';
+                            break;
+                    case 'up':
+                    chicken.style.bottom= parseInt(chicken.style.bottom)+1 +'%';
+                            break;
+                    case 'down':
+                    chicken.style.bottom= parseInt(chicken.style.bottom)-1 +'%';
+                            break;
                 }
-                //the +integer and +integer are an approximation in % of the width and height of the images
-               var cond1 = parseInt(asteroid[i].style.left)>(parseInt(chicken.style.left))+3;
-               var cond2 = parseInt(asteroid[i].style.left)+3<parseInt(chicken.style.left);
-               var cond3 = parseInt(asteroid[i].style.bottom)>8+parseInt(chicken.style.bottom);
-               var cond4 = parseInt(asteroid[i].style.bottom)+8<parseInt(chicken.style.bottom);
-
-                if((cond1||cond2||cond3||cond4)== false){
+            }
+    
+            function moveWithKey(key){
+                var keyCode = key.keyCode ||key.which ;
+                switch(keyCode){
+                    case 37:
+                        move('left');
+                        break;
+                    case 38:
+                        move('up');
+                        break;
+                    case 39:
+                        move('right');
+                        break;
+                    case 40:
+                        move('down');
+                        break;
+                }
+    
+            }
+            function asteroid(){
+                var asteroid = new Image();
+                asteroid.src = "kfc.png";
+                asteroid.width = '73';
+                asteroid.height = '76';
+                asteroid.setAttribute("class","asteroids");
+                asteroid.style.position = 'absolute'; // ask chris
+                asteroid.style.left = Math.floor((Math.random()*80)+10)+ '%';
+                asteroid.style.bottom = '70%';
+                
+                document.getElementById("asteroid").appendChild(asteroid);
+                setInterval(function(){asteroid.style.bottom=parseInt(asteroid.style.bottom)-2+'%';},'200');
+            }
+    
+            function collision(){
+                var asteroid = document.getElementsByClassName('asteroids');
+                var chicken = document.getElementById('chicken');
+                var parent = document.getElementById('asteroid');
+    
+                
+    
+                for(var i=0; i<asteroid.length;i++){
+                    if(parseInt(asteroid[i].style.bottom)<2){
+                        parent.removeChild(asteroid[i]);
+                    }
+                    //the +integer and +integer are an approximation in % of the width and height of the images
+                   var cond1 = parseInt(asteroid[i].style.left)>(parseInt(chicken.style.left))+3;
+                   var cond2 = parseInt(asteroid[i].style.left)+3<parseInt(chicken.style.left);
+                   var cond3 = parseInt(asteroid[i].style.bottom)>8+parseInt(chicken.style.bottom);
+                   var cond4 = parseInt(asteroid[i].style.bottom)+8<parseInt(chicken.style.bottom);
+    
+                    if((cond1||cond2||cond3||cond4)== false){
+                        // document.getElementById("nugget").append(nugget);
+                        // var lost = document.createElement('div');
+                        // lost.innerHTML = "Too late, KFC got you and now you are fried chicken!";
+                        // lost.setAttribute("class","center");
+                        // document.getElementById("nugget").append(lost);
+                    
+                        let parent = document.getElementById("health");
+                        let child = parent.getElementsByTagName("img");
+                        dead();
+                        setTimeout(function(){parent.removeChild(child[child.length-1]);},1500);
+                        
+                    
+                    }
+                }
+            }
+            counter = 3;
+            var health = Array(6);
+            
+            for(let i=0;i<counter*2;i+=2){
+                health[i] = new Image();
+                health[i].src = 'heart.png';
+                health[i].width = "50";
+                health[i].height = "43";
+                
+                document.getElementById("health").append(health[i]);
+            }
+                
+            function dead(){
+                var nugget = new Image();
+                nugget.src = "nugget.png";
+                nugget.style.position = 'absolute';
+                nugget.style.left='0%';
+                nugget.style.bottom = '-40%';
+                
+                let healthEmpty = document.getElementById("health").innerHTML;
+                //checking div is empty
+                console.log(healthEmpty);
+                if(healthEmpty=="") {
                     document.getElementById("nugget").append(nugget);
                     var lost = document.createElement('div');
                     lost.innerHTML = "Too late, KFC got you and now you are fried chicken!";
                     lost.setAttribute("class","center");
                     document.getElementById("nugget").append(lost);
-                    
-                    clearInterval('intID2');
-                    clearInterval('intID1');
-
-                    
-                }
+                  }   
             }
-        }
-
-        window.onload = function() { start(), asteroid()};
-        
-        var intID1= window.setInterval('asteroid()',500);
-        var intID2 = window.setInterval('collision()',0.1);
-        console.log(intID1);
-
-</script>
-
-    <img id='fire' src="fire.png" alt="fire pit">
-    <img id='chicken' src="chickengame.png" alt="chickenchick" width="57.2" height="93.75">
-
-    <div id="nugget"></div>
+            
+            window.onload = function() { start(), asteroid()};
+            
+            var intID1= window.setInterval('asteroid()',500);
+            var intID2 = window.setInterval('collision()',700);
+    
+    </script>
 </body>
 </html>
